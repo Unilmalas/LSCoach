@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<link rel="shortcut icon" href=""> <!-- favicon 404 -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/app.css">
+	<style>
+	.mt-0 {
+	  margin-top: 0 !important;
+	}
+
+	.ml-1 {
+	  margin-left: ($spacer-x * .25) !important;
+	}
+
+	.px-2 {
+	  padding-left: ($spacer-x * .5) !important;
+	  padding-right: ($spacer-x * .5) !important;
+	}
+
+	.p-3 {
+	  padding: $spacer-y $spacer-x !important;
+	}
+	
+	#idatepick {
+	  padding-top: 10px;
+	  padding-right: 30px;
+	}
+	
+	#interact {
+	  padding-top: 10px;
+	  padding-left: 0px;
+	}
+
+	#observ {
+	  padding-top: 10px;
+	  padding-left: 0px;
+	}
+	
+	#motivdd {
+	  padding-top: 10px;
+	  padding-left: 0px;
+	}
+	
+	#motivchoose {
+	  padding-top: 10px;
+	  padding-right: 30px;
+	}
+	</style>
+  </head>
+  <body ng-app='app' ng-controller='ApplicationCtrl'>
+	<nav class='nav navbar-inverse'>
+		<div class='container'>
+			<ul class='nav navbar-nav'>
+				<li><a href="/#/home">Home</a></li>
+				<li><a href="/#/admin">Admin</a></li>
+				<li><a href="/#/prereg">Register</a></li>
+				<li><a href="/#/login">Login</a></li>
+			</ul>
+			<p ng-if='currentUser.username' class="navbar-text navbar-right">
+				Signed in as {{currentUser.username}}</b><button style="margin-left:15px" class="btn btn-default" ng-click="logout()">Logout</button>
+			</p>
+		</div>
+	</nav>
+
+	<div class="container">
+	
+		<h1>Intelloquium</h1>
+		<p>Accompanying leadership.</p> 	  
+		
+		<div class="row">
+		
+			<div class="col-md-1">
+				<img src="img_avatar1.png" class="media-object" style="width:60px">
+			</div><!-- /.col-md-4 -->
+			
+			<div class="col-md-4 pull-left">
+				<h4>Hansi Whoever</h4>
+			</div><!-- /.col-md-4 -->
+		
+		    <div class='col-md-4 pull-right' id="idatepick">
+				<div class="form-group">
+					<div class='input-group date' id='datetimepicker1'>
+						<input type='text' class="form-control" />
+						<span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>
+		
+		</div><!-- /.row -->
+		
+		<div class="col-md-12" id="interact">
+			<div class="dropdown">
+			  <button class="btn btn-default dropdown-toggle" type="button" id="ddinteract" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<span id="intselected">Interaction</span><span class="caret"></span></a>
+			  </button>
+			  <ul class="dropdown-menu" aria-labelledby="ddinteract" id="interdd">
+				<li><a href="#">Hallway Conversation</a></li>
+				<li><a href="#">Meeting</a></li>
+				<li><a href="#">Call</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="#">Other</a></li>
+			  </ul>
+			</div>
+		</div><!-- /.col-md-12 -->
+	
+		<div class="col-md-12" id="observ">
+			<div class="input-group">
+			  <input type="text" class="form-control" placeholder="Observation...">
+			  <span class="input-group-btn">
+				<button class="btn btn-default" type="button">Add</button>
+			  </span>
+			</div><!-- /input-group -->
+		</div><!-- /.col-md-12 -->
+		
+		<div class="row">
+		
+			<div class="col-md-4">
+				<div class="dropdown" id="motivdd">
+				  <button class="btn btn-default dropdown-toggle" type="button" id="ddmotiv" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					<span id="motselected">Motivator</span><span class="caret"></span></a>
+				  </button>
+				  <ul class="dropdown-menu" aria-labelledby="ddmotiv" id="motivddent">
+					<li><a href="#">Autonomy</a></li>
+					<li><a href="#">Mastery</a></li>
+					<li><a href="#">Purpose</a></li>
+					<li><a href="#">Other</a></li>
+				  </ul>
+				</div>
+			</div><!-- /.col-md-12 -->
+
+			<div class="col-md-8" id="motivchoose">
+				<div class="input-group">
+				  <input type="text" class="form-control" aria-label="...">
+				  <div class="input-group-btn">
+					<!-- Buttons -->
+					<button class="btn btn-default" type="button">+</button>
+					<button class="btn btn-default" type="button">-</button>
+				  </div>
+				</div>
+			</div>
+		
+		</div><!-- /.row -->
+		
+	</div>
+	
+	<div ng-view></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/scripts/moment.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script type="text/javascript" src="/scripts/bootstrap-datetimepicker.*js"></script>
+	<link rel="stylesheet" href="/Content/bootstrap-datetimepicker.css" />
+	<!--script src='/app.js'></script-->
+	<script>
+		$(document).ready(function () {
+			$('.dropdown-toggle').dropdown();
+		});
+		
+		//$('.dropdown-menu a').click(function(){
+		$('#interdd a').click(function(){
+			$('#intselected').text($(this).text());
+		});
+		
+		$('#motivddent a').click(function(){
+			$('#motselected').text($(this).text());
+		});
+		
+		// https://eonasdan.github.io/bootstrap-datetimepicker/Installing/
+        $(function () {
+            $('#datetimepicker1').datetimepicker();
+        });
+			
+	</script>
+  </body>
+</html>

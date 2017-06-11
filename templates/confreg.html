@@ -1,0 +1,14 @@
+<div class="container">
+	<link rel="stylesheet" href="/app.css">
+	<form ng-submit="confreg(username, password)">
+	  <div class="form-group">
+		<label>Username</label>
+		<input class="form-control" ng-readonly="true" type="text" ng-model="username">
+	  </div>
+	  <div class="form-group">
+		<label>Password</label>
+		<input class="form-control" type="password" ng-model="password">
+	  </div>
+	  <input class="btn btn-success btn-lg btn-block" type="submit" value="Complete Registration">
+	</form>
+</div>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<link rel="shortcut icon" href=""> <!-- favicon 404 -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="/app.css">
+	
+  </head>
+  <body ng-app='app' ng-controller='ApplicationCtrl'>
+	<nav class='nav navbar-inverse'>
+		<div class='container'>
+			<ul class='nav navbar-nav'>
+				<li><a href="/#!/home">Home</a></li> <!-- note change from Angular 1.6: /#/myURL to /#!/myURL !!! -->
+				<li><a href="/#!/manage">Manage</a></li>
+				<li><a href="/#!/prereg">Register</a></li>
+				<li><a href="/#!/login">Login</a></li>
+			</ul>
+			<p ng-if='currentUser.username' class="navbar-text navbar-right">
+				Signed in as {{currentUser.username}}</b><button style="margin-left:15px" class="btn btn-default" ng-click="logout()">Logout</button>
+			</p>
+		</div>
+	</nav>
+
+	<div class="container">
+	
+		<h1>Intelloquium <small>Accompanying leadership.</small></h1> 	  
+			
+	</div> 
+	
+	<div ng-view></div>
+	
+  </body>
+  
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+	<script src='/app.js'></script>
+	
+</html>

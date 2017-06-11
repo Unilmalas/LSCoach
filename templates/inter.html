@@ -1,0 +1,20 @@
+<div class="container">	             
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Interaction</th>
+        <th>Motivator</th>
+		<th>Observation</th>
+      </tr>
+    </thead>
+    <tbody ng-repeat='inter in interactions.data'>
+      <tr>
+        <td>{{inter.date}}</td>
+        <td>{{inter.interaction}}</td>
+        <td>{{inter.motivatorpm}}</td>
+		<td>{{inter.observation}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

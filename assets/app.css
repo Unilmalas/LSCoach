@@ -1,0 +1,7 @@
+h1 {
+  color: @gray; /* to be used by gulp stylus */
+}
+.navbar-inverse .navbar-collapse,
+.navbar-inverse .navbar-form {
+  border-color: #@gray;
+}

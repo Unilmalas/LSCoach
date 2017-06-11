@@ -1,0 +1,48 @@
+design notes intelloquium
+
+Segment: which group?
+- name
+- segname[1-n]
+- questions[1-n][1-k]
+- conduit[1-n]
+
+Purpose: what to achieve?
+- name
+- intent
+
+Relationship: between contacts
+- name
+- source (contact)
+- destination (contact)
+
+Conduit:
+unaware -> aware -> belief -> decision -> action/use
+
+Influence on belief (Kelman):
+- compliance: means-control (reward is social effect)
+- identification: attractiveness (reward is act of conforming) - conformity: matching attitudes, beliefs, behaviors to group norms (Asch conformity: 1% error rate vs. 37%)
+- internalization: credibility (reward is content of the new)
+
+probability of accepting influence in general: a combination of 3 determinants:
+- relative importance of anticipated effect (surveillance for compliance, salience of relationship for identification, relevance of values for internalization)
+- relative power of influencing agent (social rewards, satisfying relationships, value maximization)
+- prepotency (= exceptional power of influence) of induced response (external demands, expectations on role, value system)
+
+our need to be
+- right
+- liked
+
+1. Purpose: I want to reach a goal
+
+2. define target contacts: Who is relevant to achieving the goal? This might grow later...
+
+3. define stages to goal: e.g. final stage = decision, first stage is unaware of.... with aware and belief in between = conduit; should also include observations (or markers) to correctly identify the stage the contact is in
+
+4. define actions to move contacts from stage to stage (stage jump): What might confirm a stage jump? contact might say something while I am present, but that is authority, will need identification or internalization: will need good markers for both, identification = ETHOS: we share the same values, I want to conform; internalization = PATHOS: thinking this way makes me feel good
+
+5. since contacts are different by character, markers for a stage and the action that triggers a stage jump might be different by contact character: define segments: groupings of contacts by similar stage observations/markers and similar stage-jumping actions; possibly later augment with a typing tool to ID markers and segment participation;
+
+6. define relationships between contacts to determine indirect influence possibilities: need to know: direction of influence, + or -, might be restricted to certain actions or influence types, strength of influence: +1 leads to +0.3 at target (or loss function), time delay (depends on frequency of interaction between contacts)
+
+Why not just have + and - as action? provide a report or a question when a stage limit has been reached, otherwise false exactness? we could forgoe all the details and just log + and -: then define hard gates: e.g. sale closed and correlate this with the actions before; from this we can derive a probability for a win based on the action bar progress; or better: just + to indicate stage jump, a button with a number for action (number = number of actions taken), forgoe progrss bar;
+

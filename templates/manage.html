@@ -1,0 +1,81 @@
+<div class="container">
+
+	<div class="row">
+		<img src="img_avatar1.png" class="media-object" style="width:60px">
+		<h4> {{ person.firstname }} {{ person.lastname }} </h4>
+	</div>
+
+	<div class="input-group">
+	<form name="manageInput">
+	
+		<div class="row">
+	
+			<input type="text" ng-model="person.firstname" name="firstname" class="form-control" placeholder="First name..." required>
+			<span ng-show="manageInput.firstname.$invalid">
+				<strong>Please fill first name.</strong>
+			</span>
+			<input type="text" ng-model="person.lastname" name="lastname" class="form-control" placeholder="Last name..." required>
+			<span ng-show="manageInput.lastname.$invalid">
+				<strong>Please fill last name.</strong>
+			</span>
+		
+		</div>
+		
+		<div class="row">
+			
+			<!--label for="relation">Relationship </label-->
+			<select class="form-control" id="relation" name="relation" ng-model="person.relationship" required>
+				<option value="" disabled selected>Relationship</option>
+				<option value="employee">Employee</option>
+				<option value="peer">Peer</option>
+				<option value="boss">Boss</option>
+				<option value="boss">Customer</option>
+				<option value="boss">Friend/Family</option>
+				<option value="other">Other</option>
+			</select>
+			<span ng-show="manageInput.relation.$invalid">
+				<strong>Please choose your relationship.</strong>
+			</span>
+			
+			<div class="form-group">
+			  <textarea class="form-control" rows="3" id="descr" placeholder="Description..." ng-model="person.description"></textarea>
+			</div>
+			
+			<div class="container">
+			
+				<div class="panel">
+				
+					<button type="button" class="btn btn-default btn-lg pull-right" ng-click='updatePers()' ng-disabled="manageInput.firstname.$invalid || manageInput.lastname.$invalid || manageInput.relation.$invalid">Update </button>
+					<button type="button" class="btn btn-default btn-lg pull-right" ng-click='addPers()' ng-disabled="manageInput.firstname.$invalid || manageInput.lastname.$invalid || manageInput.relation.$invalid">Add </button>
+					<!--button type="button" class="btn btn-danger btn-lg pull-right" ng-click='deletePers()'>Delete </button-->
+					<button type="button" class="btn btn-danger btn-lg pull-right" data-toggle="modal" href="#confModal" data-target="#confModal">Delete </button>
+					<!--button type="button" class="btn btn-danger btn-lg pull-right" data-toggle="collapse" data-target="#demo">Delete </button-->
+
+				</div>
+				
+				<!-- Modal -->
+				<div class="modal fade" id="confModal">
+				  <div class="modal-dialog" role="dialog">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<h4 class="modal-title">Delete Person ? </h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					  </div>
+					  <div class="modal-body">
+						<p>Do you want to delete {{ person.firstname }} {{ person.lastname }} and all your interactions?</p>
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" class="btn btn-primary" ng-click='deletePers()'>Delete</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					  </div>
+					</div>
+				  </div>
+				</div>
+				
+			</div>
+		</div>
+	</form>
+	</div>
+</div>

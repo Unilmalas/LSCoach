@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<link rel="shortcut icon" href=""> <!-- favicon 404 -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/app.css">
+  </head>
+  <body ng-app='app' ng-controller='ApplicationCtrl'>
+	<nav class='nav navbar-inverse'>
+		<div class='container'>
+			<ul class='nav navbar-nav'>
+				<li><a href="/#/home">Home</a></li>
+				<li><a href="/#/admin">Admin</a></li>
+				<li><a href="/#/prereg">Register</a></li>
+				<li><a href="/#/login">Login</a></li>
+			</ul>
+			<p ng-if='currentUser.username' class="navbar-text navbar-right">
+				Signed in as {{currentUser.username}}</b><button style="margin-left:15px" class="btn btn-default" ng-click="logout()">Logout</button>
+			</p>
+		</div>
+	</nav>
+
+	<div class="container">
+	
+		<h1>Intelloquium</h1>
+		<p>Accompanying leadership.</p> 	  
+			
+	</div>
+
+
+	
+	<!-- Media top -->
+	<div class="container">
+		<div class="media">
+			<div class="media-left media-top">
+				<a href="/#/persdetail"><img src="img_avatar1.png" class="media-object" style="width:60px"></a>
+			</div>
+			<div class="media-body">
+				<a href="/#/persdetail"><h4 class="media-heading">Hansi Whoever</h4></a>
+
+					<div class="col-sm-6">
+						<p>Sed ut perspiciatis xxxxxxxxxxx xxxxxx xxxxxxxxxxxxxxxxx xxxxx xxxxxx xxxxx xxxxxxxxxxxxxxxxx xxxxxxxxxxx...</p>
+					</div>
+					
+					<a href="#">Observations <span class="badge">42</span></a>
+					
+					<a href="#">Motivators <span class="badge">4</span></a>
+					
+					<!--img src="signal.png" class="img-thumbnail" alt="conv pipe" width="50" height="50"-->
+					
+					<div class="col-sm-3 pull-right">
+						<button type="button" class="btn btn-default btn-lg">Add Interaction</button>
+					</div>
+
+			</div>
+		</div>
+		<div class="media">
+			<div class="media-left media-top">
+				<a href="/#/persdetail"><img src="img_avatar1.png" class="media-object" style="width:60px"></a>
+			</div>
+			<div class="media-body">
+				<a href="/#/persdetail"><h4 class="media-heading">Some One</h4></a>
+
+					<div class="col-sm-6">
+						<p>Sed ut perspiciatis xxxxxxxxxxx xxxxxx xxxxxxxxxxxxxxxxx xxxxx xxxxxx xxxxx xxxxxxxxxxxxxxxxx xxxxxxxxxxx...</p>
+					</div>
+					
+					<a href="#">Observations <span class="badge">13</span></a>
+					
+					<a href="#">Motivators <span class="badge">2</span></a>
+					
+					<!--img src="signal.png" class="img-thumbnail" alt="conv pipe" width="50" height="50"-->
+					
+					<div class="col-sm-3 pull-right">
+						<button type="button" class="btn btn-default btn-lg">Add Interaction</button>
+					</div>
+
+			</div>
+		</div>
+		<div class="media">
+			<div class="media-left media-top">
+				<a href="/#/persadd"><img src="empty-avatar.jpg" class="media-object" style="width:60px"></a>
+			</div>
+			<div class="media-body">
+				<a href="/#/persadd"><h4 class="media-heading">New Person</h4></a>
+
+					<div class="col-sm-6">
+						<p>To be completed...</p>
+					</div>
+					
+					<a href="#">Observations <span class="badge">0</span></a>
+					
+					<a href="#">Motivators <span class="badge">0</span></a>
+					
+					<!--img src="signal.png" class="img-thumbnail" alt="conv pipe" width="50" height="50"-->
+					
+					<div class="col-sm-3 pull-right">
+						<button type="button" class="btn btn-default btn-lg">Add Interaction</button>
+					</div>
+
+			</div>
+		</div>
+	</div>
+
+	<!--div class="col-sm-4">
+		<button type="button" class="btn btn-default btn-lg">
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span> Customer 0
+		</button>
+	</div>
+	<div class="col-sm-4">
+	  <p>Sed ut perspiciatis...</p>
+	</div>
+	<div class="col-sm-4">
+	  <p>Sed ut perspiciatis...</p>
+	</div-->	
+	
+	<div ng-view></div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!--script src='/app.js'></script-->
+	<script>
+		$(document).ready(function () {
+			$('.dropdown-toggle').dropdown();
+		});
+	</script>
+  </body>
+</html>
