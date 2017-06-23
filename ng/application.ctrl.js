@@ -17,7 +17,7 @@ angular.module('app') // getter
 	});
 	
 	$scope.logout = function(){
-        scope.currentUser = null;
+        $scope.currentUser = null;
         //$location.path('/login');
         UserSvc.removeToken();
         $scope.isAuth = false;

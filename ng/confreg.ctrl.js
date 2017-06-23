@@ -9,12 +9,13 @@ angular.module('app')
 	var etoken = $routeParams.token;
 	//console.log('confmailctrl hit ' + uemail + ' ' + etoken);
 	UserSvc.confmail(uemail, etoken) // call confmail in UserSvc service
-		.success(function (user) {
-			$scope.username = user.username; // getting username back
+		.then(function (user) {
+			//console.log('confmail ' + JSON.stringify(user.data));
+			$scope.user = user.data; // getting username back
 	});
-  
-  	$scope.confreg = function (username, password) {
-		//console.log('ctrl confreg ' + username + ' pw ' + password);
+	
+	$scope.confreg = function (username, password) {
+		console.log('ctrl confreg ' + username + ' pw ' + password);
 		UserSvc.confreg(username, password) // call confregister in UserSvc service
 			.then(function (response) {
 			$scope.$emit('login', response.data); // pass event up to to ApplicationCtrl

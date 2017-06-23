@@ -33,6 +33,7 @@ angular.module('app')
   }
   
   svc.prereg = function (username, uemail) {	
+	//console.log('prereg user called frum user svc: ' + username);
 	return $http.post('/api/users/prereg', { // create a user temporarily
 		username: username,
 		uemail: uemail
@@ -50,7 +51,7 @@ angular.module('app')
   }
   
   svc.confreg = function (username, password) {	
-	//console.log('service confreg ' + username + ' pw ' + password);
+	console.log('service confreg ' + username + ' pw ' + password);
 	return $http.post('/api/users/confreg', { // finalize user creation
 		username: username,
 		password: password

@@ -12,8 +12,7 @@ angular.module('app')
 	//console.log('ID: ' + $scope.persid);
 	
    // initial load of person
-   ManageService.fetch($scope.persid)
-   //ManageService.fetch($scope.persid, $scope.username)
+   ManageService.fetch( $scope.persid, $scope.currentUser.username )
    .then(function (person) {
 	    //console.log('fetch in ManageCtrl: ' + JSON.stringify(person.data));
 		//$scope.person = JSON.parse(JSON.stringify(person.data[0]));; // trick to deep-clone object
@@ -25,9 +24,11 @@ angular.module('app')
   $scope.addPers = function () {
     if ($scope.isAuth) {
 	  // need to check first if update was pressed even as its a new person
+	  //console.log('add person: user: ' + $scope.currentUser.username);
 	  if ( $scope.person._id != '' ) {
 		  ManageService.updPers({
 			_id:			$scope.person._id,
+			username:		$scope.currentUser.username,
 			firstname:    	$scope.person.firstname,
 			lastname:	  	$scope.person.lastname,
 			relationship:	$scope.person.relationship,
@@ -38,6 +39,7 @@ angular.module('app')
 		  });
 	  } else {
 		  ManageService.addPers({
+			username:		$scope.currentUser.username,
 			firstname:    	$scope.person.firstname,
 			lastname:	  	$scope.person.lastname,
 			relationship:	$scope.person.relationship,
@@ -57,6 +59,7 @@ angular.module('app')
 	  if ( $scope.person._id != '' ) { // only if PID is set, otherwise add
 		  ManageService.updPers({
 			_id:			$scope.person._id,
+			username:		$scope.currentUser.username,
 			firstname:    	$scope.person.firstname,
 			lastname:	  	$scope.person.lastname,
 			relationship:	$scope.person.relationship,
@@ -67,6 +70,7 @@ angular.module('app')
 		  });
 	  } else {
 		  ManageService.addPers({
+			username:		$scope.currentUser.username,
 			firstname:    	$scope.person.firstname,
 			lastname:	  	$scope.person.lastname,
 			relationship:	$scope.person.relationship,
@@ -85,6 +89,7 @@ angular.module('app')
     if ($scope.isAuth) {
       ManageService.delPers({
 		_id:			$scope.person._id,
+		username:		$scope.currentUser.username,
         firstname:    	$scope.person.firstname,
 		lastname:	  	$scope.person.lastname,
 		relationship:	$scope.person.relationship,

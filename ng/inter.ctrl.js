@@ -8,8 +8,7 @@ angular.module('app')
   var persid = $routeParams.persid;
   var username = $routeParams.username;
   // initial load of interactions
-  InterService.fetch(persid)
-  //InterService.fetch(persid, username)
+  InterService.fetch( persid, username )
   .then(function (interactions) {
 	  $scope.interactions = interactions; // to be shown in interactions list
 	  //console.log(JSON.stringify(interactions.data));

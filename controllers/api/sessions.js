@@ -6,7 +6,7 @@ var User   = require('../../models/user'); // require models after express
 
 router.post('/', function (req, res, next) { // just / instead of /sessions - note namespacing in server.js
   var username = req.body.username;
-  User.findOne({username: username}) // get the user from the DB
+  User.findOne({ username: username }) // get the user from the DB
   .select('password')
   .select('username')
   .exec(function (err, user) {

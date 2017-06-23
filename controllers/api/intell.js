@@ -7,8 +7,7 @@ var Interaction = require('../../models/interaction');	// interaction
 var router = require('express').Router();
 
 router.get('/', function (req, res, next) { // get endpoint: note namespace (.use in server.js)
-  Person.find() // access passed parameters via req.query.xxxxx
-  // will need to add username here: Person.find({ username: req.query.username  }) - actually username should be available everywhere in $scope.currentUser
+  Person.find({ username: req.query.username  }) // access passed parameters via req.query.xxxxx
   .exec( function (err, persons) {
     if (err) { return next(err); }
 	//console.log(persons);
@@ -17,7 +16,8 @@ router.get('/', function (req, res, next) { // get endpoint: note namespace (.us
 });
 
 router.get('/pid', function (req, res, next) { // get endpoint: note namespace (.use in server.js) - get one person by id
-  Person.find({ 	_id: req.query._id  }) // access passed parameters via req.query.xxxxx
+  Person.find({ 	username: req.query.username,
+					_id: req.query._id  }) // access passed parameters via req.query.xxxxx
   .exec( function (err, person) {
     if (err) { return next(err); }
 	//console.log('API PID: ' + person + ' for ID ' + req.query._id);
@@ -26,7 +26,8 @@ router.get('/pid', function (req, res, next) { // get endpoint: note namespace (
 });
 
 router.get('/inter_id', function (req, res, next) { // get endpoint: note namespace (.use in server.js)
-  Interaction.find({ 	_person: req.query._id  }) // access passed parameters via req.query.xxxxx
+  Interaction.find({ 	username: req.query.username,
+						_person: req.query._id  }) // access passed parameters via req.query.xxxxx
   .exec( function (err, interactions) {
     if (err) { return next(err); }
 	//console.log(interactions);
@@ -36,6 +37,7 @@ router.get('/inter_id', function (req, res, next) { // get endpoint: note namesp
 
 router.post('/addpers', function (req, res, next) { // person post endpoint: note namespace (.use in server.js)
 	var pers = new Person({
+							username:		req.body.username,
 							firstname:		req.body.firstname,
 							lastname:		req.body.lastname,
 							relationship:	req.body.relationship,
@@ -49,10 +51,13 @@ router.post('/addpers', function (req, res, next) { // person post endpoint: not
 router.post('/updpers', function (req, res, next) { // person post endpoint: note namespace (.use in server.js)
 	Person.findById( req.body._id, function (err, pers) {
 		if (err) { return next(err); }
-			pers.firstname = req.body.firstname;
-			pers.lastname = req.body.lastname;
-			pers.relationship = req.body.relationship;
-			pers.description = req.body.description;
+			//console.log('intell.js /updpers: ' + req.body.username);
+			var pers = new Person({
+				username:		req.body.username,
+				firstname:		req.body.firstname,
+				lastname:		req.body.lastname,
+				relationship:	req.body.relationship,
+				description:	req.body.description });
 			pers.save();
 		res.status(201).json(pers);
 	});
@@ -65,7 +70,8 @@ router.post('/delpers', function (req, res, next) { // person post endpoint: not
 		if (err) { return next(err); }
 		//console.log(pers);
 		// need to deep-delete the interactions
-		Interaction.find( { _person: req.body._id } )
+		Interaction.find( { username: req.body.username,
+							_person: req.body._id } )
 			.remove()
 			.exec( function (err, inter) {
 			if (err) { return next(err); }
@@ -76,6 +82,7 @@ router.post('/delpers', function (req, res, next) { // person post endpoint: not
 
 router.post('/int', function (req, res, next) { // interaction post endpoint: note namespace (.use in server.js)
 	var inter = new Interaction({
+							username:		req.body.username,
 							_person:		req.body._person,
 							interaction:	req.body.interaction,
 							observation:	req.body.observation,

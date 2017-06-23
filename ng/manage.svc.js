@@ -4,12 +4,12 @@
 angular.module('app')
 .service('ManageService', [ '$http', function ($http) {
 	
-  this.fetch = function (persid) {
+  this.fetch = function ( persid, username ) {
     //return $http.get('/api/intell');
 	return $http({
 		url: '/api/intell/pid',
 		method: "GET",
-		params: { _id: persid }
+		params: { _id: persid, username: username }
 	});
   };
   

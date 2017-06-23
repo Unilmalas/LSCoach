@@ -9,7 +9,7 @@ var UserTemp = require('../../models/usertemp'); // temp user till confirmation 
 var config = require('../../config');
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var crypto = require ('crypto') // registration token
+var crypto = require ('crypto') // registration token . no separate npm install required
 
 router.get('/', function (req, res, next) { // get an existing user; /users instead of / - note namespacing in server.js
   if (!req.headers['x-auth']) {
@@ -37,6 +37,7 @@ router.post('/prereg', function (req, res, next) { // create a new temporary use
 				if (err) { return next(err); }
 				if (user) {
 					// we have found a user -> todo: change to confreq
+					//console.log('user found');
 					res.sendStatus(501);  // 501: Not Implemented
 				} else {
 					// user not in temp storage: proceed with prereg
@@ -60,16 +61,17 @@ router.post('/prereg', function (req, res, next) { // create a new temporary use
 															email: 		req.body.uemail,
 															verified:	false,
 															token:		ctoken });
-							console.log('email prereq: ' + req.body.uemail);
+							//console.log('email prereq: ' + req.body.uemail);
 							usertemp.save(function (err) { // save user to temp db
 								if (err) { return next(err); }
 								// send registration e-mail
 								// gmail setup: http://masashi-k.blogspot.co.at/2013/06/sending-mail-with-gmail-using-xoauth2.html
+								// alos in: https://medium.com/@pandeysoni/nodemailer-service-in-node-js-using-smtp-and-xoauth2-7c638a39a37e
 								var generator = require('xoauth2').createXOAuth2Generator({
 									user: 'bschoss00@gmail.com',
-									clientId: '785259798300-i62kabd1pet1q559nt4fgik6v30cmtdd.apps.googleusercontent.com',
-									clientSecret: '0kRf85CqNz3x2Zre3QVXNOyx',
-									refreshToken: '1/-C0lpIfcQnYmCQYgr8uCpH0WdV2eftMmwsVcWhjDXtU'
+									clientId: '1067274556021-8f76h86jtfj7u93m3v6ell55ml23c2cp.apps.googleusercontent.com',
+									clientSecret: 'S8PMvNkSw6BWbAKEsp6vLkND',
+									refreshToken: '1/9qAJEpS6jjAo1vhURL9Ze5fp3fWqa-bLxuvcMNy5p9k'
 								});
 							 
 								// listen for token updates 
@@ -82,22 +84,35 @@ router.post('/prereg', function (req, res, next) { // create a new temporary use
 								// e-mail service login 
 								var transporter = nodemailer.createTransport(({
 									service: 'gmail',
-									auth: {
+									/*auth: {
 										xoauth2: generator
+									}*/
+									auth: {
+										type: 'OAuth2',
+										user: 'bschoss00@gmail.com',
+										clientId: '1067274556021-8f76h86jtfj7u93m3v6ell55ml23c2cp.apps.googleusercontent.com',
+										clientSecret: 'S8PMvNkSw6BWbAKEsp6vLkND',
+										refreshToken: '1/9qAJEpS6jjAo1vhURL9Ze5fp3fWqa-bLxuvcMNy5p9k'
+										//accessToken: 'accesstoken',
+										//expires: 12345
 									}
 								}));
 								
+								// conf link handling see https://stackoverflow.com/questions/27248379/how-can-i-handle-email-confirmation-urls-in-an-identity-2-1-spa-angular-js-appli
 								// construct confirmation link
-								var conflinkplain = '//localhost:3000/#/confmail?email=' + req.body.uemail + '&token=' + ctoken;
+								var conflinkplain = 'http://localhost:3000/#/confmail/email/' + req.body.uemail + '/token/' + ctoken; // this link is now clickable in yahoo!!!
 								var conflinkhtml = '<a href="//localhost:3000/#/confmail?email=' + req.body.uemail + '&token=' + ctoken + '">confirm registration</a>';
 								
 								// setup e-mail data with unicode symbols
 								var mailOptions = {
-									from: '"TypingTool Admin" <bschoss00@gmail.com>', // sender address
+									from: '"Intelloquium Admin" <bschoss00@gmail.com>', // sender address
 									to: 'bschoss@yahoo.com', // list of receivers todo: change this to req.body.uemail
 									subject: 'Please confirm your e-mail by following the link given', // Subject line
+									//generateTextFromHTML: true,
 									text: conflinkplain // plaintext body
-									//html: conflinkhtml // html body
+									//html: conflinkhtml // html body; see https://stackoverflow.com/questions/17650174/node-mailer-cant-click-link-in-yahoo-mail
+									//html: <b>Signup Confirmation ✔</b><br />
+									//	+ '<a href=\"' + conflinkplain.toString() + '\">confirm registration</a>'
 								};
 
 								// send mail with defined transport object
@@ -120,7 +135,6 @@ router.post('/prereg', function (req, res, next) { // create a new temporary use
 });
 
 router.get('/confmail', function (req, res, next) { // confirm registration (following the link from registration e-mail)
-
 	var uemail = req.query.uemail; // readout e-mail parameter of GET-request from conf link
 	var etoken = req.query.etoken; // readout token parameter of GET-request from conf link
 	//console.log('confmail: ' + uemail + ' token ' + etoken);
@@ -131,8 +145,10 @@ router.get('/confmail', function (req, res, next) { // confirm registration (fol
 		if (err) { return next(err); }
 		if (user) {
 			// we have found a user
+			//console.log('user found ' + user.username);
 			res.json(user);
 		} else {
+			//console.log('no user found');
 			// no user found: reg token expired
 		}
 	});
