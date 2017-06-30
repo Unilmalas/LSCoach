@@ -8,9 +8,9 @@
 		<th>Observation</th>
       </tr>
     </thead>
-    <tbody ng-repeat='inter in interactions.data'>
+    <tbody ng-repeat="inter in interactions.data | orderBy:'-date'">
       <tr>
-        <td>{{inter.date}}</td>
+        <td>{{inter.datestr}}</td>
         <td>{{inter.interaction}}</td>
         <td>{{inter.motivatorpm}}</td>
 		<td>{{inter.observation}}</td>

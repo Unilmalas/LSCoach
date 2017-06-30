@@ -28,7 +28,7 @@ router.post('/prereg', function (req, res, next) { // create a new temporary use
 		if (err) { return next(err); }
 		if (user) {
 			// we have found a user -> tell user so and go to login (todo)
-			res.sendStatus(501);  // 501: Not Implemented
+			res.sendStatus(409);  // 409: Conflict - user already exists
 		} else {
 			// no user found in final collection -> check in temp
 			//console.log('uname prereq: ' + req.body.username);
@@ -38,7 +38,7 @@ router.post('/prereg', function (req, res, next) { // create a new temporary use
 				if (user) {
 					// we have found a user -> todo: change to confreq
 					//console.log('user found');
-					res.sendStatus(501);  // 501: Not Implemented
+					res.sendStatus(409);  // 409: Conflict - user already exists
 				} else {
 					// user not in temp storage: proceed with prereg
 					// user not yet registered: create a registration token, see if that token not yet in the db
@@ -68,10 +68,10 @@ router.post('/prereg', function (req, res, next) { // create a new temporary use
 								// gmail setup: http://masashi-k.blogspot.co.at/2013/06/sending-mail-with-gmail-using-xoauth2.html
 								// alos in: https://medium.com/@pandeysoni/nodemailer-service-in-node-js-using-smtp-and-xoauth2-7c638a39a37e
 								var generator = require('xoauth2').createXOAuth2Generator({
-									user: 'xxx@gmail.com',
-									clientId: 'xxx',
-									clientSecret: 'xxx',
-									refreshToken: 'xxx'
+									user: 'bschoss00@gmail.com',
+									clientId: '1067274556021-8f76h86jtfj7u93m3v6ell55ml23c2cp.apps.googleusercontent.com',
+									clientSecret: 'S8PMvNkSw6BWbAKEsp6vLkND',
+									refreshToken: '1/9qAJEpS6jjAo1vhURL9Ze5fp3fWqa-bLxuvcMNy5p9k'
 								});
 							 
 								// listen for token updates 
@@ -89,10 +89,10 @@ router.post('/prereg', function (req, res, next) { // create a new temporary use
 									}*/
 									auth: {
 										type: 'OAuth2',
-										user: 'xxx@gmail.com',
-										clientId: 'xxx',
-										clientSecret: 'xxx',
-										refreshToken: 'xxx'
+										user: 'bschoss00@gmail.com',
+										clientId: '1067274556021-8f76h86jtfj7u93m3v6ell55ml23c2cp.apps.googleusercontent.com',
+										clientSecret: 'S8PMvNkSw6BWbAKEsp6vLkND',
+										refreshToken: '1/9qAJEpS6jjAo1vhURL9Ze5fp3fWqa-bLxuvcMNy5p9k'
 										//accessToken: 'accesstoken',
 										//expires: 12345
 									}
@@ -105,8 +105,8 @@ router.post('/prereg', function (req, res, next) { // create a new temporary use
 								
 								// setup e-mail data with unicode symbols
 								var mailOptions = {
-									from: '"Intelloquium Admin" <xxx@gmail.com>', // sender address
-									to: 'xxx@yahoo.com', // list of receivers todo: change this to req.body.uemail
+									from: '"Intelloquium Admin" <bschoss00@gmail.com>', // sender address
+									to: 'bschoss@yahoo.com', // list of receivers todo: change this to req.body.uemail
 									subject: 'Please confirm your e-mail by following the link given', // Subject line
 									//generateTextFromHTML: true,
 									text: conflinkplain // plaintext body

@@ -75,7 +75,7 @@ angular.module('app')
 	   .then(function (persons) {
 			//console.log('fetch in HomeCtrl: ' + JSON.stringify(persons));
 			$scope.myPers = null; // inits person
-			$scope.persons = persons; // to be shown in persons list
+			$scope.persons.data = persons.data; // to be shown in persons list
 			
 			// calculate days since last interaction
 			var plen = persons.data.length;
@@ -90,6 +90,7 @@ angular.module('app')
 				// add interaction and observation to persons.data
 				$scope.persons.data[i].observation = '';
 				$scope.persons.data[i].interaction = '';
+				//console.log('fetch[' + i + ']: ' + JSON.stringify($scope.persons.data[i]));
 			}
 	   });
    }
@@ -98,15 +99,15 @@ angular.module('app')
 	  $scope.persIndex = index;
   };
   
-  $scope.subInter = function (motiv, persindex) {
+  $scope.subInter = function (motiv, index) {
 	if ($scope.isAuth) { // authorized?
-	  console.log('HomeCtrl persid ' + persindex + ' pers ' + JSON.stringify($scope.persons.data[persindex]));
-	  console.log('HomeCtrl interaction ' + $scope.persons.data[persindex].interaction + ' ccc ' + $scope.persons.data[persindex]._id);
+	  //console.log('HomeCtrl persid ' + index + ' pers ' + JSON.stringify($scope.persons.data[index]));
+	  //console.log('HomeCtrl interaction ' + $scope.persons.data[index].interaction + ' ccc ' + $scope.persons.data[index]._id);
 	  HomeService.subInter({
 		  username:			$scope.currentUser.username,
-		  _person:			$scope.persons.data[persindex]._id, // note: persons.data property holds the actual data of the $http response
-		  interaction: 		$scope.persons.data[persindex].interaction,
-		  observation: 		$scope.persons.data[persindex].observation,
+		  _person:			$scope.persons.data[index]._id, // note: persons.data property holds the actual data of the $http response
+		  interaction: 		$scope.persons.data[index].interaction,
+		  observation: 		$scope.persons.data[index].observation,
 		  motivator:		'',
 		  motivatordesc:	'',
 		  motivatorpm: 		motiv
@@ -119,10 +120,11 @@ angular.module('app')
 	}
   };
   
-  $scope.managePers = function (persid) {
+  $scope.managePers = function (index) {
 	if ($scope.isAuth) { // authorized?
 	  // manage person just clicked
-	  //console.log('person id: ' + persid);
+	  var persid = $scope.persons.data[index]._id; // person data property holds data of $http-response
+	  //console.log('managePers: person id: ' + persid + ' at index: ' + index + ' is ' + $scope.persons.data[index].firstname);
 	  $location.path("/manage/" + persid + /username/ + $scope.currentUser.username); // link to manage person page
 	  // in the router this is then .when('/inter/:persid',...) which can be accessed via var persid = $routeParams.persid;
 	} else {
@@ -134,7 +136,7 @@ angular.module('app')
 	if ($scope.isAuth) { // authorized?
 	  // show interactions for person just clicked
 	  var _person = $scope.persons.data[index]._id; // person data property holds data of $http-response
-	  console.log('person id: ' + _person);
+	  //console.log('showInter person id: ' + _person + ' at index: ' + index + ' is ' + $scope.persons.data[index].firstname);
 	  //$location.path("/inter/").search({persid: _person}); // this produces: /inter/?persid=_person
 	  $location.path("/inter/" + _person + /username/ + $scope.currentUser.username); // this is working now, maybe add user?
 	  // in the router this is then .when('/inter/:persid',...) which can be accessed via var persid = $routeParams.persid;
@@ -186,6 +188,11 @@ angular.module('app')
   InterService.fetch( persid, username )
   .then(function (interactions) {
 	  $scope.interactions = interactions; // to be shown in interactions list
+	  var ilen = $scope.interactions.data.length;
+	  for (var i=0; i<ilen; i++) {
+		  var date =  new Date($scope.interactions.data[i].date);
+		  $scope.interactions.data[i].datestr = date.toDateString();
+	  }
 	  //console.log(JSON.stringify(interactions.data));
   });
   
@@ -205,16 +212,43 @@ angular.module('app')
   };
   
 }]);
+'use strict';
+
+// Landing controller
+angular.module('app')
+.controller('LandingCtrl', ['LandingService', '$scope', '$location', function (LandingService, $scope, $location) {
+// see https://stackoverflow.com/questions/19957280/angularjs-best-practices-for-module-declaration for best practices on module declaration
+  
+  $scope.goHome = function () {
+	$location.path("/home"); // go to home screen
+	// in the router this is then .when('/inter/:persid',...) which can be accessed via var persid = $routeParams.persid;
+  };
+
+}]);
+'use strict';
+
+// landing services
+angular.module('app')
+.service('LandingService', [ '$http', function ($http) {
+  
+}]);
 // login controller
 angular.module('app')
 .controller('LoginCtrl', function ($scope, UserSvc) {
 	
+  $scope.userPWWrong = false; // flag set to true if user or pw wrong
+	
   $scope.login = function (username, password) {
     UserSvc.login(username, password)
     .then(function (response) {
-		//console.log(user);
-		$scope.$emit('login', response.data); // pass event up to to ApplicationCtrl
-		//$location.path('/');
+		//console.log('login ' + JSON.stringify(response));
+		if (response.status == '401') {
+			$scope.userPWWrong = true; // flag set to true if user or pw wrong
+		} else {
+			//console.log(user);
+			$scope.$emit('login', response.data); // pass event up to to ApplicationCtrl
+			//$location.path('/');
+		}
     });
   }
 });
@@ -367,12 +401,19 @@ angular.module('app')
 angular.module('app')
 .controller('PreRegCtrl', function ($scope, UserSvc) {
 	
+  $scope.userExists = false; // flag set to true if user exists
+	
   $scope.prereg = function (username, uemail) {
 	// e-mail validation
 	var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 	if (emailRegex.test(uemail)) { // test if e-mail format ok
 		UserSvc.prereg(username, uemail) // call preregister in UserSvc service
 		.then(function (response) {
+			if (response.status == '409') {
+				//console.log('user ' + response.config.data.username + ' already exists.');
+				$scope.userExists = true; // flag set to true if user exists
+			}
+			//console.log('prereg response: ' + JSON.stringify(response));
 			//$scope.$emit('login', response.data); // pass event up to to ApplicationCtrl
 			//$location.path('/');
 		});
@@ -384,7 +425,8 @@ angular.module('app')
 angular.module('app') // getter
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
   $routeProvider 	// each route has a controller and a template associated with it
-	.when('/',         { controller: 'HomeCtrl', templateUrl: '/templates/home.html' })  // html-files are loaded on demand
+    .when('/',         { controller: 'LandingCtrl', templateUrl: '/templates/landing.html' })  // html-files are loaded on demand
+	.when('/home',         { controller: 'HomeCtrl', templateUrl: '/templates/home.html' })  // html-files are loaded on demand
 	.when('/inter/:persid/username/:username', { controller: 'InterCtrl', templateUrl: '/templates/inter.html' }) // show interactions for a person
 	//.when('/register', { controller: 'RegisterCtrl', templateUrl: '/templates/register.html' }) // register user
 	.when('/prereg', { controller: 'PreRegCtrl', templateUrl: '/templates/prereg.html' }) // preregistration of user till conf
@@ -395,6 +437,7 @@ angular.module('app') // getter
 	.when('/logout',	 { controller: 'LogoutCtrl', templateUrl: '/templates/logout.html' })
 	.when('/manage/:persid/username/:username',	 { controller: 'ManageCtrl', templateUrl: '/templates/manage.html' })
 	.when('/manage',	 { controller: 'ManageCtrl', templateUrl: '/templates/manage.html' })
+	.when('/settings',	 { controller: 'SettingsCtrl', templateUrl: '/templates/settings.html' })
 	// routes like /color/:color/largecode/:largecode*\ will match /color/brown/largecode/code/with/slashes
 	// and extract: color: brown largecode: code/with/slashes and stored in $routeParams under the given name
 	//.otherwise(			{ redirectTo: '/' }); // home page (should I put this into templates too...?)
@@ -445,10 +488,15 @@ angular.module('app')
       username: username,
 	  password: password
 	}).then(function (val) {
+	  //console.log('user svc login: ' + val);
 	  svc.token = val.data;
 	  $http.defaults.headers.common['X-Auth'] = val.data;
       return svc.getUser();
-    });
+    }, function errorCallback(response) {
+		// called asynchronously if an error occurs
+		// or server returns response with an error status.
+		return response; // no login!
+	});
   }
   
   svc.register = function (username, password) {	
@@ -469,8 +517,12 @@ angular.module('app')
 	return $http.post('/api/users/prereg', { // create a user temporarily
 		username: username,
 		uemail: uemail
-	}).then(function () {
-		return; // no login!
+	}).then(function (response) {
+		return response; // no login!
+	}, function errorCallback(response) {
+		// called asynchronously if an error occurs
+		// or server returns response with an error status.
+		return response; // no login!
 	});
   }
 

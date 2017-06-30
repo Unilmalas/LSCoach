@@ -19,7 +19,7 @@ angular.module('app')
 	   .then(function (persons) {
 			//console.log('fetch in HomeCtrl: ' + JSON.stringify(persons));
 			$scope.myPers = null; // inits person
-			$scope.persons = persons; // to be shown in persons list
+			$scope.persons.data = persons.data; // to be shown in persons list
 			
 			// calculate days since last interaction
 			var plen = persons.data.length;
@@ -34,6 +34,7 @@ angular.module('app')
 				// add interaction and observation to persons.data
 				$scope.persons.data[i].observation = '';
 				$scope.persons.data[i].interaction = '';
+				//console.log('fetch[' + i + ']: ' + JSON.stringify($scope.persons.data[i]));
 			}
 	   });
    }
@@ -42,15 +43,15 @@ angular.module('app')
 	  $scope.persIndex = index;
   };
   
-  $scope.subInter = function (motiv, persindex) {
+  $scope.subInter = function (motiv, index) {
 	if ($scope.isAuth) { // authorized?
-	  console.log('HomeCtrl persid ' + persindex + ' pers ' + JSON.stringify($scope.persons.data[persindex]));
-	  console.log('HomeCtrl interaction ' + $scope.persons.data[persindex].interaction + ' ccc ' + $scope.persons.data[persindex]._id);
+	  //console.log('HomeCtrl persid ' + index + ' pers ' + JSON.stringify($scope.persons.data[index]));
+	  //console.log('HomeCtrl interaction ' + $scope.persons.data[index].interaction + ' ccc ' + $scope.persons.data[index]._id);
 	  HomeService.subInter({
 		  username:			$scope.currentUser.username,
-		  _person:			$scope.persons.data[persindex]._id, // note: persons.data property holds the actual data of the $http response
-		  interaction: 		$scope.persons.data[persindex].interaction,
-		  observation: 		$scope.persons.data[persindex].observation,
+		  _person:			$scope.persons.data[index]._id, // note: persons.data property holds the actual data of the $http response
+		  interaction: 		$scope.persons.data[index].interaction,
+		  observation: 		$scope.persons.data[index].observation,
 		  motivator:		'',
 		  motivatordesc:	'',
 		  motivatorpm: 		motiv
@@ -63,10 +64,11 @@ angular.module('app')
 	}
   };
   
-  $scope.managePers = function (persid) {
+  $scope.managePers = function (index) {
 	if ($scope.isAuth) { // authorized?
 	  // manage person just clicked
-	  //console.log('person id: ' + persid);
+	  var persid = $scope.persons.data[index]._id; // person data property holds data of $http-response
+	  //console.log('managePers: person id: ' + persid + ' at index: ' + index + ' is ' + $scope.persons.data[index].firstname);
 	  $location.path("/manage/" + persid + /username/ + $scope.currentUser.username); // link to manage person page
 	  // in the router this is then .when('/inter/:persid',...) which can be accessed via var persid = $routeParams.persid;
 	} else {
@@ -78,7 +80,7 @@ angular.module('app')
 	if ($scope.isAuth) { // authorized?
 	  // show interactions for person just clicked
 	  var _person = $scope.persons.data[index]._id; // person data property holds data of $http-response
-	  console.log('person id: ' + _person);
+	  //console.log('showInter person id: ' + _person + ' at index: ' + index + ' is ' + $scope.persons.data[index].firstname);
 	  //$location.path("/inter/").search({persid: _person}); // this produces: /inter/?persid=_person
 	  $location.path("/inter/" + _person + /username/ + $scope.currentUser.username); // this is working now, maybe add user?
 	  // in the router this is then .when('/inter/:persid',...) which can be accessed via var persid = $routeParams.persid;

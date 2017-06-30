@@ -11,6 +11,11 @@ angular.module('app')
   InterService.fetch( persid, username )
   .then(function (interactions) {
 	  $scope.interactions = interactions; // to be shown in interactions list
+	  var ilen = $scope.interactions.data.length;
+	  for (var i=0; i<ilen; i++) {
+		  var date =  new Date($scope.interactions.data[i].date);
+		  $scope.interactions.data[i].datestr = date.toDateString();
+	  }
 	  //console.log(JSON.stringify(interactions.data));
   });
   

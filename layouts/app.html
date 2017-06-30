@@ -18,6 +18,9 @@
 				<li><a href="/#/prereg">Register</a></li>
 				<li><a href="/#/login">Login</a></li>
 			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/#/settings"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Settings</a></li>
+			</ul>
 			<p ng-if='currentUser.username' class="navbar-text navbar-right">
 				Signed in as {{currentUser.username}}</b><button style="margin-left:15px" class="btn btn-default" ng-click="logout()">Logout</button>
 			</p>
