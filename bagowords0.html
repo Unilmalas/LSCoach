@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Bag-of-Words Test</h2>
+
+<p>xxxxxxxxxxxxxxx</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo0"></p>
+
+<p id="demo1"></p>
+
+<script>
+'use strict';
+
+var testText = "Crew and commander were met with parades in Boston, but Bainbridge had little time to enjoy the acclaim. He was immediately faced with a task that, if not as exciting as a sea battle, was nevertheless formidable. He had temporarily relinquished command of the Charlestown Navy Yard when he sailed on _Constitution_. While he was gone, Navy Secretary Paul Hamilton charged the yard with building one of the nation’s first ships-of-the-line—the battleships of their day. As things now stood, that was an impossibility: Charlestown simply lacked the facilities for such an undertaking. Bainbridge, who at 37 had already seen extensive naval action and been imprisoned by Barbary pirates, wrote soon after becoming commandant in 1812: “No period of my naval life has been more industrious or fatiguing.” He was shorthanded and hampered by bad weather, conditions that must have sorely tested the endurance of a man with his temperament: aggressive, volatile, not noted for his patience. When he took command of the Charlestown yard, Bainbridge pressed the Washington bureaucracy to authorize improvements to a facility that suffered, in his words, from “mismanagement and neglect.”"
+
+var ignoreDic = " the and of to that so this it they was in this who most with is it their for by but its of ";
+
+var bagOfWords = [];
+
+document.getElementById("demo0").innerHTML = JSON.stringify(fillBag( testText, bagOfWords ));
+
+function fillBag( sourceText, destBag ) { // fill bag of word array from sourceText
+	var word = {	word: 		"something",
+					frequency:	0 };
+	var sourceLen = sourceText.length;
+	var nextPos = 0;
+	var i = 0;
+	var wordFound = 0;
+	
+	// text cleanup first
+	sourceText = sourceText.replace(/[.,';’“”:_]/g, "");
+	do {
+		nextPos	= sourceText.indexOf( " ", i+1 );
+		word.word = sourceText.slice( i, nextPos ).toLowerCase().trim();
+		word.frequency = 1;
+		i = (nextPos <= 0) ? sourceLen : (nextPos + 1);
+		if ( ignoreDic.indexOf(word.word)>=0 ) continue; // ignore this word?
+		wordFound = wordFind( word.word, destBag );
+		if ( wordFound > 0 ) destBag[wordFound].frequency++;
+		else destBag.push(JSON.parse(JSON.stringify(word)));
+	} while ( i<sourceLen );
+	return destBag;
+}
+
+function wordFind( wordSearch, bag ) { // returns index of word in bag, -1 if not found
+	var baglen = bag.length;
+	for ( var i=0; i<baglen; i++ ) {
+		if ( bag[i].word.localeCompare(wordSearch) == 0 ) return i;
+	}
+	return -1;
+}
+
+function myFunction() {
+    bagOfWords.sort(function(a, b) { return ( a.frequency - b.frequency ); }); // if a lower than b the function should return a negative value
+    document.getElementById("demo0").innerHTML = JSON.stringify(bagOfWords);
+    bagOfWords.sort(function(a, b) { return ( a.word.localeCompare(b.word) ); }); // if a lower than b the function should return a negative value
+    document.getElementById("demo1").innerHTML = JSON.stringify(bagOfWords);
+}
+</script>
+
+</body>
+</html>
