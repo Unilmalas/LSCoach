@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html>
+<body>
+
+<h2>JavaScript Bag-of-Words Test</h2>
+
+<p>xxxxxxxxxxxxxxx</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo0"></p>
+
+<p id="demo1"></p>
+
+<script>
+'use strict';
+
+var testText = [];
+
+testText[0] = "motivA Crew and commander were met with parades in Boston, but ";
+testText[1] = "motivA Bainbridge had little time to enjoy the acclaim. He was immediately ";
+testText[2] = "motivA faced with a task that, if not as exciting as a sea battle, was nevertheless formidable. ";
+testText[3] = "motivB He had temporarily relinquished command of the Charlestown Navy Yard ";
+testText[4] = "motivB when he sailed on _Constitution_. While he was gone, Navy Secretary Paul Hamilton ";
+testText[5] = "motivC charged the yard with building one of the nation’s first ships-of-the-line—the ";
+testText[6] = "motivC battleships of their day. As things now stood, that was an impossibility: ";
+testText[7] = "motivB Charlestown simply lacked the facilities for such an undertaking. Bainbridge, who at 37 ";
+testText[8] = "motivC had already seen extensive naval action and been imprisoned by Barbary pirates, ";
+testText[9] = "wrote soon after becoming commandant in 1812: “No period of my naval life has been more ";
+testText[10] = "industrious or fatiguing.” He was shorthanded and hampered by bad weather, conditions ";
+testText[11] = "that must have sorely tested the endurance of a man with his temperament: ";
+testText[12] = "aggressive, volatile, not noted for his patience. When he took command of the ";
+testText[13] = "Charlestown yard, Bainbridge pressed the Washington bureaucracy to authorize ";
+testText[14] = "improvements to a facility that suffered, in his words, from “mismanagement and neglect.”";
+
+//		 0 1 2 3 4  5  6 7  8 9 10 11 12 13 14
+var motivVals = [0,0,0,1,1,-1,-1,1,-1,1, 0, 0, 1, 1, 0];
+
+var ignoreDic = " the and of to that so this it they was in this who with is it their for by but its of had on has ";
+
+var bagOfWords = [];
+
+document.getElementById("demo0").innerHTML = JSON.stringify(processTxt());
+
+function processTxt() {
+	for ( var i=0; i<testText.length; i++ ) {
+		fillBag( testText[i], motivVals[i], bagOfWords );
+	}
+	return bagOfWords;
+}
+
+function fillBag( sourceText, sourceMotiv, destBag ) { // fill bag of word array from sourceText, sourceMotiv is just one value
+	var word = {	word: 		"something",
+			frequency:	0,
+			motivsum:	0 };
+	var sourceLen = sourceText.length;
+	var nextPos = 0;
+	var i = 0;
+	var wordFound = 0;
+	
+	// text cleanup first
+	sourceText = sourceText.replace(/[.,';’“”:_0123456789]/g, "");
+	do {
+		if ( i == 0 ) nextPos = sourceText.indexOf( " ", i );
+		else nextPos = sourceText.indexOf( " ", i+1 );
+		word.word = sourceText.slice( i, nextPos ).toLowerCase().trim();
+		word.frequency = 1;
+		i = (nextPos <= 0) ? sourceLen : (nextPos + 1);
+		if ( ignoreDic.indexOf(word.word)>=0 ) continue; // ignore this word?
+		wordFound = wordFind( word.word, destBag );
+		if ( wordFound >= 0 ) {
+			destBag[wordFound].frequency++;
+			destBag[wordFound].motivsum += sourceMotiv;
+		} else {
+			word.motivsum = sourceMotiv;
+			destBag.push(JSON.parse(JSON.stringify(word)));
+		}
+	} while ( i<sourceLen );
+	return destBag;
+}
+
+function wordFind( wordSearch, bag ) { // returns index of word in bag, -1 if not found
+	var baglen = bag.length;
+	for ( var i=0; i<baglen; i++ ) {
+		if ( bag[i].word.localeCompare(wordSearch) == 0 ) return i;
+	}
+	return -1;
+}
+
+function myFunction() {
+    bagOfWords.sort(function(b, a) { return ( a.frequency - b.frequency ); }); // if a lower than b the function should return a negative value
+    document.getElementById("demo0").innerHTML = JSON.stringify(bagOfWords);
+    bagOfWords.sort(function(a, b) { return ( a.word.localeCompare(b.word) ); }); // if a lower than b the function should return a negative value
+    document.getElementById("demo1").innerHTML = JSON.stringify(bagOfWords);
+}
+</script>
+
+</body>
+</html>
