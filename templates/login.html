@@ -10,6 +10,7 @@
 	  </div>
 	  <input class="btn btn-success btn-lg btn-block" type="submit" value="Login">
 	</form>
+	<a ng-click='$event.preventDefault();forgotPW(user.username)' href>Forgot your password?</a>
 </div>
 <div class="container" ng-show="userPWWrong">
 	<h4>Username or password wrong, please reenter.</h4>

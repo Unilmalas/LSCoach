@@ -15,6 +15,8 @@ angular.module('app') // getter
 	.when('/manage/:persid/username/:username',	 { controller: 'ManageCtrl', templateUrl: '/templates/manage.html' })
 	.when('/manage',	 { controller: 'ManageCtrl', templateUrl: '/templates/manage.html' })
 	.when('/settings',	 { controller: 'SettingsCtrl', templateUrl: '/templates/settings.html' })
+	.when('/insights',	 { controller: 'InsightsCtrl', templateUrl: '/templates/insights.html' })
+	.when('/pwforgotten/username/:username',	 { controller: 'PWresCtrl', templateUrl: '/templates/pwreset.html' })
 	// routes like /color/:color/largecode/:largecode*\ will match /color/brown/largecode/code/with/slashes
 	// and extract: color: brown largecode: code/with/slashes and stored in $routeParams under the given name
 	//.otherwise(			{ redirectTo: '/' }); // home page (should I put this into templates too...?)

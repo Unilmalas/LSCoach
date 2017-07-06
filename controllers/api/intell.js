@@ -25,9 +25,18 @@ router.get('/pid', function (req, res, next) { // get endpoint: note namespace (
   });
 });
 
-router.get('/inter_id', function (req, res, next) { // get endpoint: note namespace (.use in server.js)
+router.get('/inter_id', function (req, res, next) { // get endpoint: note namespace (.use in server.js) for interactions for user and person
   Interaction.find({ 	username: req.query.username,
 						_person: req.query._id  }) // access passed parameters via req.query.xxxxx
+  .exec( function (err, interactions) {
+    if (err) { return next(err); }
+	//console.log(interactions);
+    res.json(interactions); // render out the interactions as JSON
+  });
+});
+
+router.get('/inter_all', function (req, res, next) { // get endpoint for all interactions for user
+  Interaction.find({ 	username: req.query.username  }) // access passed parameters via req.query.xxxxx
   .exec( function (err, interactions) {
     if (err) { return next(err); }
 	//console.log(interactions);

@@ -15,8 +15,9 @@ angular.module('app')
 	});
 	
 	$scope.confreg = function (username, password) {
-		console.log('ctrl confreg ' + username + ' pw ' + password);
-		UserSvc.confreg(username, password) // call confregister in UserSvc service
+		var email = $routeParams.email;
+		//console.log('ctrl confreg ' + username + ' pw ' + password + ' uemail ' + email);
+		UserSvc.confreg(username, password, email) // call confregister in UserSvc service
 			.then(function (response) {
 			$scope.$emit('login', response.data); // pass event up to to ApplicationCtrl
 			//$location.path('/');

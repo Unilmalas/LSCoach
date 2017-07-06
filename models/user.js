@@ -4,7 +4,7 @@ var user = db.Schema({
 	username: 	{ type: String, required: true },
 	password: 	{ type: String, required: true, select: false }, 	// prevent password from being selected (want to just send the hash)
 	company:	{ type: String, required: false },					// company
-	email:		{ type: String, required: false },					// preferred e-mail
+	email:		{ type: String, required: true },					// preferred e-mail
 	postinterq:	Boolean,											// check-questionnair after interaction-post (not yet implemented)
 	objectives:	[String],											// placeholder: objectives I would like to reach as a leader
 	badges:		[String],											// placeholder: badges I have earned

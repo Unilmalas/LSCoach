@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "intelloquium-170810",
+  "private_key_id": "69fcc2697dd13492a6ddfb34d1073d07d0a36b02",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDDoKam6UjFk150\n8sIV6CRznWVXxs/Up/4AiVu7xvuHzlnRgZ+AG1EOjWC7mnj+9unTs6O2k5HKbOth\nil2fTNEpYs0XEsNnG3KhBVPZX5LwIcz/kBK0hgV31ePa1pKVUguaKnizakrVSjGK\nor4BXxrh4zPpmRlO7vUzjPD27ZxrTSdpK1VkR2+euuqyFBZH2k2b8wU/LRximq72\nwg0zeAEIjKoT2JA/aMR399BmCIreYl5jMNdinHQA/4lnryZMtaJgEY65mNl/LZEW\nvU1AUR7T8iuGlfncJIvMgRRjY5ytzH2Kw34tWIETYjZ7geKDgw39+HemwWTtpfcV\nkEnUGK29AgMBAAECggEAAhJTcXUK9jynRWnEsGKy8B58kj9iuAfHYs4RkJ180GVZ\nAiTzQXIIm7TXj2UFXv3SYBGI7EgHxTL+ExxZ/XPcyylmrpXeR9s8jYP27Vhbv/s7\npoEqEYtRx4EWVpzrFHW39bv5Zzz66eNNPwCWLoGJUVcMl66tW+6f3hnh+1tsyp4T\nzVIIbX8I0IdkFziuFACE5BzYWLMGS0JVqhCLa39lYFdt7W945vKKDpAMChbPzwNH\nntM0YTcx2ZjbQUF0C0o8D0vomdP3UjjG7U13YJS2tfZJnK2J8wZfakzvKNiqIjAs\nFGT+2GkcMU3oYePktcZH9RD1yZoKCWSeYnKiOW0+QQKBgQDiomGskLLy6FoAH6Bo\nHsOf+/sPd9MaA2vEmeDUYsLsKgQBhpUPYxySkQBgtBkFs+DSo1zhAytqSpMVyDhj\njvXuaBdaaA+z/q9IKKt0oLLRivTMS2GgeJrsSsar6YW7k/8+p3zo+szcIiNMJkVW\nj5RLv82+L0IF/dgXOIZ4wrw1hQKBgQDc+cDmO80t7xwTqQmzz5mrLbbeVrUfxvl0\n6bafWOP5q1TqoWeHWHIwBS0R80gWkWPNXuDMKnr5MKFBahWivmI/k6edLS09x0gB\nVq95b6GDoSbX3dK8CiaaGBnG/UBgatd5suzbgMN9sElcBXUh1styEZA4JyV/m3Vt\nHlKbMIsQ2QKBgQCr/+T1HJRTOfgkI9yPaNm673go0x3JnlMJ0GcLiTC6H2EO717t\nYKDss1OAEO70nwG/mvAAbXFjp9ldLKlvFa6cEy+2E0fnqSDKOON3DgbodPc4nPUo\n3p9lOZLyIba3F6kdmet4ve8AGoCDaIAzI6C+pIC3GBKZjX+Uj/euasyAKQKBgQCc\n+QIRyytu1OuR/8N3qyKTWi8MdHXH9BWi+p8TRRb1dcMlxbCAkdDT0el5VePAvFk0\nO5DfF9IxkF0M1eo2qJ2sYhxwZ/Y6a4T4BncygZ0vn1uzfs1DbMaNMk+lbqO7mkol\nFnhxWWAFuiPyraHOfwIYrudPLGfT5UAeWqr9uRcgyQKBgDCfmzB6q3XJ02hH/lCT\nGFLhiQWzIBO6ndr4jU7P6wpLxGEfp/JNZy8FIrEfFL9OGGlQgIYBWup24kpjXknZ\ngG3X6lJeXtZDKfMOPbVJGcl59VCtj+Eg4tdxXpx5OHh2Gil3mS0tBtpCEOSkwzpM\nFFeicqbMkq4A2nTR7jfcVXzA\n-----END PRIVATE KEY-----\n",
+  "client_email": "intmailer@intelloquium-170810.iam.gserviceaccount.com",
+  "client_id": "118286848142616046533",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/intmailer%40intelloquium-170810.iam.gserviceaccount.com"
+}

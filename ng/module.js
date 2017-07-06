@@ -1,3 +1,3 @@
 angular.module('app', [
-	'ngRoute'
+	'ngRoute', 'googlechart'
 ]); // setter - called only once before getters

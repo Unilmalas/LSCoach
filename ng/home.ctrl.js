@@ -12,6 +12,10 @@ angular.module('app')
    $scope.inter = {};
    
    $scope.persIndex = 0;
+   
+   function isNumeric(n) {
+		return !isNaN(parseFloat(n)) && isFinite(n);
+   }
 
    // initial load of persons
    if ($scope.isAuth) { // authorized?
@@ -20,7 +24,12 @@ angular.module('app')
 			//console.log('fetch in HomeCtrl: ' + JSON.stringify(persons));
 			$scope.myPers = null; // inits person
 			$scope.persons.data = persons.data; // to be shown in persons list
-			
+			var maxinterdays = 100000; // set to practical infinity 274 yrs ;)
+			if ( isNumeric( $scope.intertime ) ) maxinterdays = $scope.intertime * 30; // if max inter time (in months!) set take that
+			// ONLY FOR TEST: DAYS!!!!! REMOVE ONCE WORKING !!!!!
+			//console.log(" home ctrl intertime " + $scope.intertime);
+			if ( isNumeric( $scope.intertime ) ) maxinterdays = $scope.intertime; 
+			// REMOVE END
 			// calculate days since last interaction
 			var plen = persons.data.length;
 			//console.log('plen: ' + plen);
@@ -30,7 +39,12 @@ angular.module('app')
 			for (var i=0; i<plen; i++) {
 				var lastinterdate = new Date(persons.data[i].datelastint);
 				//console.log('person intdate: ' + persons.data[i].datelastint + ' for person ' + i);
-				$scope.persons.data[i].diffDays = Math.round(Math.abs((today.getTime() - lastinterdate.getTime())/(oneDay)));
+				// calculate difference in days from today to date of last interaction
+				diffDays = Math.round(Math.abs((today.getTime() - lastinterdate.getTime())/(oneDay)));
+				if ( diffDays <= maxinterdays ) // interaction inside desired time horizon?
+					$scope.persons.data[i].diffDays = Math.round(Math.abs((today.getTime() - lastinterdate.getTime())/(oneDay)));
+				else
+					$scope.persons.data[i].diffDays = 'beyond';
 				// add interaction and observation to persons.data
 				$scope.persons.data[i].observation = '';
 				$scope.persons.data[i].interaction = '';
